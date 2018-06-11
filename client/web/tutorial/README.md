@@ -8,9 +8,9 @@ Knowledge about UI frameworks such as React is not required. However, the functi
 
 Your mission, if you accept it, is to follow the instructions below in order to implement end-to-end encryption.
 
-You are going to actually write some code there, so before you start please familiarize yourself the [api documentation](https://tanker.io/docs/latest/api/tanker/).
+You are going to actually write some code there, so before you start please familiarize yourself the [api documentation](https://tanker.io/docs/latest/api/tanker/?language=javascript).
 
-During this exercise, we'll also introduce you to the SDK core concepts with links to the [Tanker SDK guide](https://tanker.io/docs/latest/guide/getting-started/).
+During this exercise, we'll also introduce you to the SDK core concepts with links to the [Tanker SDK guide](https://tanker.io/docs/latest/guide/getting-started/?language=javascript).
 
 Note: if you get stuck, feel free to take a look at the `client/web/notepad` folder for clues :).
 
@@ -39,7 +39,7 @@ Here is the user experience flow:
 2. He logs in
 3. He is redirected to an edit form where he can type text, and save the contents by sending them to a remote server.
 
-The server handles signing up of the users by hashing their passwords, and can also store the user notes. The server is also able to send [user tokens](https://www.tanker.io/docs/latest/guide/server/#user_token) to authenticated users.
+The server handles signing up of the users by hashing their passwords, and can also store the user notes. The server is also able to send [user tokens](https://www.tanker.io/docs/latest/guide/server/?language=javascript#user_token) to authenticated users.
 
 ### Run
 
@@ -99,7 +99,7 @@ Since the tanker SDK implements end-to-end encryption, most cryptographic operat
 
 ### Handling a Tanker session
 
-The goal here is to [open and close a tanker session](https://tanker.io/docs/latest/guide/open/).
+The goal here is to [open and close a tanker session](https://tanker.io/docs/latest/guide/open/?language=javascript).
 
 In the `./client/web/tutorial/src/Session.js` file, the `trustchainId` has already been extracted from the config file for you:
 ```javascript
@@ -108,7 +108,7 @@ import { trustchainId } from './config';
 
 *Use it to initialize a new Tanker instance in the constructor.*
 
-Now we need to handle the creation of a Tanker session, with the help of the [`tanker.open()`](https://www.tanker.io/docs/latest/guide/open/#opening_the_session_client-side) method.
+Now we need to handle the creation of a Tanker session, with the help of the [`tanker.open()`](https://www.tanker.io/docs/latest/api/tanker/?language=JavaScript#open) method.
 
 There are two cases here. Either the user just created an account, or he just logged in.
 
@@ -116,23 +116,25 @@ In both cases, the server should have sent a user token, and we can call `open()
 
 *Call `this.tanker.open()` in `Session.openSession()`*.
 
-Then you should *get rid of the `opened` attribute* and *fix the `Session.isOpen()` and `Session.close()` methods* using `tanker.status` and `tanker.close()`.
+Then you should *get rid of the `opened` attribute* and *fix the `Session.isOpen()` and `Session.close()` methods* using [`tanker.isOpen()`](https://www.tanker.io/docs/latest/api/tanker/?language=javascript#isopen) and [`tanker.close()`](https://www.tanker.io/docs/latest/api/tanker/?language=javascript#close).
 
 At this point, nothing has changed in the application, we just made sure we could open and close a Tanker section correctly.
 
 You can check this by refreshing your browser, and log in. You should see the text you wrote in the previous step, and in the console log, the "Tanker session is ready" you've just added.
 
+Now that we know how to open a Tanker session, it's time to [encrypt, decrypt and share](https://www.tanker.io/docs/latest/guide/encryption/?language=javascript) the notes!
+
 ### Encrypting data
 
-To encrypt data, *use [`tanker.encrypt()`](https://www.tanker.io/docs/latest/guide/encryption#encrypting) in `Session.saveText()`*.
+To encrypt data, *use [`tanker.encrypt()`](https://www.tanker.io/docs/latest/api/tanker/?language=javascript#encrypt) in `Session.saveText()`*.
 
-Don't forget to use `toBase64()` to convert the binary encrypted data into text before sending it to the server.
+Don't forget to use [`toBase64()`](https://tanker.io/docs/latest/api/utilities/?language=javascript#base64_to_buffer) to convert the binary encrypted data into text before sending it to the server.
 
 ### Decrypting data
 
-To decrypt data, *use [`tanker.decrypt()`](https://www.tanker.io/docs/latest/guide/encryption/#decrypting) in `Session.loadTextFromUser()`*.
+To decrypt data, *use [`tanker.decrypt()`](https://www.tanker.io/docs/latest/api/tanker/?language=javascript#decrypt) in `Session.loadTextFromUser()`*.
 
-Don't forget to use `fromBase64()` to convert the encrypted text received from the server into binary.
+Don't forget to use [`fromBase64()`](https://tanker.io/docs/latest/api/utilities/?language=javascript#base64_to_buffer) to convert the encrypted text received from the server into binary.
 
 ### Checking it works
 
@@ -163,16 +165,16 @@ They are two places we need to do this:
 * In the `Session.saveText()` method, called when the user clicks on `save` on the "Edit your note" panel
 * In the `Session.share()` method, called when when the users clicks on `share` in the "Share" panel.
 
-Please read the [section about sharing in the documentation](https://tanker.io/docs/latest/guide/encryption/#sharing) first.
+Please read the [section about sharing in the documentation](https://tanker.io/docs/latest/guide/encryption/?language=javascript#sharing) first.
 
 Then, *use the `shareWith` option of `tanker.encrypt()` in `Session.saveText()`*.
 
-Also make sure to *store the resource ID matching the newly generated key by using the `getResourceId()` helper method*
+Also make sure to *store the resource ID matching the newly generated key by using the [`getResourceId()`](https://tanker.io/docs/latest/api/utilities/?language=javascript#getresourceid) helper method*
 
 Next, in the `share` method:
 
 * *Remove the line `this.resourceId = this.userId` since notes no longer are identified by their creator*.
-* *Call `tanker.share()` with a list containing the current `resourceId` and the list of recipients*.
+* *Call [`tanker.share()`](https://tanker.io/docs/latest/api/tanker/?language=javascript#share) with a list containing the current `resourceId` and the list of recipients*.
 
 You can now re-try sharing notes between Alice and Bob, the "share" functionality should be working again.
 
@@ -182,7 +184,7 @@ At this point, if you try to log in the same user in an other browser in private
 
 That is because we did not take care of device management so far.
 
-You should now go read the [section about device management](https://tanker.io/docs/latest/guide/device-management/).
+You should now go read the [section about device management](https://tanker.io/docs/latest/guide/device-management/?language=javascript).
 
 Then *connect the `waitingForValidation` event of the Tanker and emit the `newDevice` event when required*.
 
@@ -192,7 +194,7 @@ That way, when the user needs to perform manual operations about its device, the
 
 (The `newDevice` event is handled in the other React components of the application).
 
-Then *implement the `Session.getUnlockKey()` and `Session.addCurrentDevice()` device methods using `generateAndRegisterUnlockKey()` and `unlockCurrentDevice()` respectively*.
+Then *implement the `Session.getUnlockKey()` and `Session.addCurrentDevice()` device methods using [`tanker.generateAndRegisterUnlockKey()`](https://tanker.io/docs/latest/api/tanker/?language=javascript#generateandregisterunlockkey) and [`tanker.unlockCurrentDevice()`](https://tanker.io/docs/latest/api/tanker/?language=javascript#unlockcurrentdevice) respectively*.
 
 Thus, when the user needs to unlock a new device, the web application will end up calling `tanker.unlockCurrentDevice()`.
 
