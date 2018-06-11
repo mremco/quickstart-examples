@@ -5,11 +5,11 @@ import Signin from "./Signin";
 import Signup from "./Signup";
 
 const SessionForm = ({ onSignIn, onSignUp }) => (
-  <Tab.Container defaultActiveKey="sign-in" id="session_form_container">
+  <Tab.Container defaultActiveKey="sign-up" id="session_form_container">
     <Panel>
       <Nav bsStyle="tabs" role="tablist" className="nav-justified">
-        <NavItem eventKey="sign-in">Sign in</NavItem>
         <NavItem eventKey="sign-up">Sign up</NavItem>
+        <NavItem eventKey="sign-in">Sign in</NavItem>
       </Nav>
       <Panel.Body>
         <Tab.Content animation={false}>

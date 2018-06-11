@@ -108,7 +108,7 @@ import { trustchainId } from './config';
 
 *Use it to initialize a new Tanker instance in the constructor.*
 
-Now we need to handle the creation of a Tanker session, with the help of the [`tanker.open()`](https://www.tanker.io/docs/latest/api/tanker/?language=JavaScript#open) method.
+Now we need to handle the creation of a Tanker session, with the help of the [`tanker.open()`](https://www.tanker.io/docs/latest/api/tanker/?language=javascript#open) method.
 
 There are two cases here. Either the user just created an account, or he just logged in.
 
