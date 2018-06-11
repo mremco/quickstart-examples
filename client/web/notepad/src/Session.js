@@ -24,7 +24,7 @@ export default class Session extends EventEmitter {
   }
 
   isOpen() {
-    return this.tanker.status === this.tanker.OPEN;
+    return this.tanker.isOpen();
   }
 
   async close() {
